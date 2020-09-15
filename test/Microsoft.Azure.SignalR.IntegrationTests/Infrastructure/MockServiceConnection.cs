@@ -55,5 +55,14 @@ namespace Microsoft.Azure.SignalR.IntegrationTests.Infrastructure
             add => _serviceConnection.ConnectionStatusChanged += value;
             remove => _serviceConnection.ConnectionStatusChanged -= value;
         }
+
+        // While the connection container will have instances of MockServiceConnection the async local we pick connections from
+        // will still store instance of the actual ServiceConnection (put there by ServiceConnection.OnClientConnectedAsync)
+        // Overriding Equals would help us have an extra consistency check to ensure that the connection in the async local
+        // indeed belongs to the right container
+        //public override bool Equals(object obj)
+        //{
+        //    return _serviceConnection.Equals(obj);
+        //}
     }
 }
